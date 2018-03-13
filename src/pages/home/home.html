@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-title>
+      Bienvenido {{usuario}}
+    </ion-title>  
+  </ion-navbar> 
+</ion-header>
+
+<ion-content padding>
+<h1>Tenemos estas opciones:</h1> 
+<button ion-button (click)="buscar()"icon-right>
+    <ion-icon name="search"></ion-icon>buscar</button>
+<button ion-button (click)="publicar()"icon-right>
+    <ion-icon name="create"></ion-icon>publicar</button>
+<button ion-button (click)="verMgs()"icon-right>
+    <ion-icon name="list"></ion-icon>ver mensajes</button>
+    <button ion-button (click)="amigos()"icon-right>
+            <ion-icon name="people"></ion-icon>ver amigos</button>
+<button ion-button (click)="salir()"icon-right>
+    <ion-icon name="log-out"></ion-icon>salir</button>
+    <br>
+    <ion-card ion-item *ngFor="let a of amigs">
+ 
+            <ion-card-header>
+              Amigo:
+            </ion-card-header> 
+          
+            <ion-card-content>
+                <ion-icon name="person" ></ion-icon>
+              <!-- Add card content here! -->
+              {{ a }}
+            </ion-card-content>
+          
+          </ion-card>
+</ion-content> 

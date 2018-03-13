@@ -1,0 +1,42 @@
+<!--
+  Generated template for the InscribirsePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>  
+
+  <ion-navbar>
+    <ion-title>inscribirse</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+<ion-list>
+
+  <ion-item>
+    <ion-label >Primer nombre:</ion-label>
+    <ion-input type="text" value="" [(ngModel)]="nombre"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label >Primer apellido</ion-label>
+    <ion-input type="text" [(ngModel)]="apellido"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label fixed>Email</ion-label>
+    <ion-input type="text" [(ngModel)]="email"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label fixed>Password</ion-label>
+    <ion-input type="password" [(ngModel)]="passwd"></ion-input>
+  </ion-item>
+
+</ion-list>
+<button ion-button (click)="inscribir()"> Inscribir</button>
+</ion-content>
