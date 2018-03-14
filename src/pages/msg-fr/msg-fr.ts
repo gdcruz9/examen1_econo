@@ -32,7 +32,8 @@ msg;
       msgRef.push({
         mssg:this.msg,
         user:'yo',
-        likes:0
+        likes:0,
+        dislikes:0
       })
 
       let alert = this.alertCtrl.create({

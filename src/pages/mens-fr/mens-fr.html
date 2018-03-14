@@ -23,9 +23,10 @@
             </ion-card-header> 
           
             <ion-card-content>
-                <ion-icon name="thumbs-up" (click)='like(i)'></ion-icon>
+                <ion-icon name="thumbs-up" (click)='like(i)'></ion-icon>{{ msgs }}
+                <ion-icon name="thumbs-down" (click)='dislike(i)'></ion-icon>
               <!-- Add card content here! -->
-              {{ msgs }}
+              
             </ion-card-content>
           
           </ion-card>

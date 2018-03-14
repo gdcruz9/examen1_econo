@@ -40,7 +40,8 @@ apellido;
         msg:this.msg,
         autN: this.nombre,
         autL: this.apellido,
-        likes:0
+        likes:0,
+        dislikes:0
       });
 
       let alert = this.alertCtrl.create({

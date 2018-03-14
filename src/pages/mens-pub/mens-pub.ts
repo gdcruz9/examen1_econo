@@ -18,6 +18,7 @@ import { isEmpty } from '@firebase/util';
 export class MensPubPage {
   mensajes: any=[];
   likes: any=[];
+  dislikes: any=[];
   mglk:any=[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -30,19 +31,35 @@ export class MensPubPage {
 
 cargar(){
   this.mensajes=[];
+  this.likes=[];
+  this.dislikes=[];
+  this.mglk=[];
+  let nmsgsp=0;
     let msgs: any=[];
     let lks:any=[];
+    let dlks:any=[];
     let mk:any=[];
 
     var usrRef=firebase.database().ref('msgs/pub/');
-    usrRef.orderByChild("autN").on("child_added", function(data) {
+    usrRef.orderByChild("likes").on("child_added", function(data) {
         msgs.push(data.val().autN+' '+data.val().autL+' :'+data.val().msg);
         lks.push(data.val().likes);
-        mk.push(data.val().likes+' :'+data.val().autN+' '+data.val().autL+' :'+data.val().msg);
+        dlks.push(data.val().dislikes);
+        mk.push(data.val().likes+' :'+data.val().autN+' '+data.val().autL+' :'
+        +data.val().msg+'       '+data.val().dislikes);
+        nmsgsp+=1;
    });
-   this.mensajes=msgs;
+
+   for (let i=nmsgsp-1;i>=0;i--){
+    this.mensajes.push(msgs[i]);
+    this.likes.push(lks[i]);
+    this.mglk.push(mk[i]);
+    this.dislikes.push(dlks[i]);
+  }
+
+   /*this.mensajes=msgs;
    this.likes=lks;
-   this.mglk=mk;
+   this.mglk=mk;*/
    if (isEmpty(this.mensajes))
    {
     let alert = this.alertCtrl.create({
@@ -76,4 +93,29 @@ console.log(typeof(this.likes[ind]));
    this.likes[ind]=n;
 this.cargar();
 }
+
+dislike(ind:number)
+{
+  var mg=this.mensajes;
+  var msgRef;
+  var m;
+    var n:number=parseInt(this.dislikes[ind]);
+    n-=1;
+    console.log(mg[ind]);
+
+    var usrRef=firebase.database().ref('msgs/pub/');
+
+    usrRef.orderByChild("autN").on("child_added", function(data) {
+        m=data.val().autN+' '+data.val().autL+' :'+data.val().msg; 
+
+      if (m==mg[ind]){
+          msgRef=data.ref;
+          console.log(msgRef);
+          if (n>=0)
+            msgRef.update({'dislikes':n});
+      }
+   });
+   this.dislikes[ind]=n;
+this.cargar();
+  }
 }
