@@ -41,7 +41,9 @@ apellido;
         autN: this.nombre,
         autL: this.apellido,
         likes:0,
-        dislikes:0
+        dislikes:0,
+        usrlikes: "",
+        usrdislikes: ""
       });
 
       let alert = this.alertCtrl.create({

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import * as firebase from 'firebase/app'; 
 import { isEmpty } from '@firebase/util';
+import { ShareService } from '../../services/share/share';
 
 /**
  * Generated class for the MensPubPage page.
@@ -22,7 +23,7 @@ export class MensPubPage {
   mglk:any=[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-  public alertCtrl:AlertController) {
+  public alertCtrl:AlertController, public shareService: ShareService) {
   }
 
   ionViewDidLoad() {
@@ -34,6 +35,9 @@ cargar(){
   this.likes=[];
   this.dislikes=[];
   this.mglk=[];
+  var msgRef;
+  var lksRef;
+  var shs=this.shareService;
   let nmsgsp=0;
     let msgs: any=[];
     let lks:any=[];
@@ -48,6 +52,10 @@ cargar(){
         mk.push(data.val().likes+' :'+data.val().autN+' '+data.val().autL+' :'
         +data.val().msg+'       '+data.val().dislikes);
         nmsgsp+=1;
+        msgRef=data.ref;
+        lksRef=firebase.database().ref(msgRef.path.pieces_[0]+'/'+msgRef.path.pieces_[1]
+        +'/'+msgRef.path.pieces_[2]+'/usrlikes');
+lksRef.push({'usrlike': shs.getName()+'-'+shs.getLast()});
    });
 
    for (let i=nmsgsp-1;i>=0;i--){
@@ -76,6 +84,8 @@ like(ind:number)
   var mg=this.mensajes;
   var msgRef;
   var m;
+  var lksRef;
+  var shs=this.shareService;
     var n:number=parseInt(this.likes[ind]);
 console.log(typeof(this.likes[ind]));
     n+=1;
@@ -88,6 +98,9 @@ console.log(typeof(this.likes[ind]));
           msgRef=data.ref;
           console.log(msgRef);
           msgRef.update({'likes':n});
+          lksRef=firebase.database().ref(msgRef.path.pieces_[0]+'/'+msgRef.path.pieces_[1]
+          +'/'+msgRef.path.pieces_[2]+'/usrlikes');
+          lksRef.push({'usrlike': shs.getName()+'-'+shs.getLast()});
       }
    });
    this.likes[ind]=n;
@@ -99,8 +112,10 @@ dislike(ind:number)
   var mg=this.mensajes;
   var msgRef;
   var m;
+  var dlksRef;
+  var shs=this.shareService;
     var n:number=parseInt(this.dislikes[ind]);
-    n-=1;
+    n+=1;
     console.log(mg[ind]);
 
     var usrRef=firebase.database().ref('msgs/pub/');
@@ -111,8 +126,11 @@ dislike(ind:number)
       if (m==mg[ind]){
           msgRef=data.ref;
           console.log(msgRef);
-          if (n>=0)
+          if (n>=0){
             msgRef.update({'dislikes':n});
+            dlksRef=firebase.database().ref(msgRef.path.pieces_[0]+'/'+msgRef.path.pieces_[1]
+            +'/'+msgRef.path.pieces_[2]+'/usrdislikes');
+dlksRef.push({'usrlike': shs.getName()+'-'+shs.getLast()});}
       }
    });
    this.dislikes[ind]=n;

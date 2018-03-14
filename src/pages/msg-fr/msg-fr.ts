@@ -33,7 +33,9 @@ msg;
         mssg:this.msg,
         user:'yo',
         likes:0,
-        dislikes:0
+        dislikes:0,
+        usrlikes: "",
+        usrdislikes:""
       })
 
       let alert = this.alertCtrl.create({

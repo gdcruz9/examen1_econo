@@ -112,7 +112,9 @@ export class MensFrPage {
 {
   var mg=this.mensajes;
   var msgRef;
+  var lksRef;
   var m;
+  var shs=this.shareService;
     var n:number=parseInt(this.likes[ind]);
     n+=1;
     console.log(mg[ind]);
@@ -126,6 +128,9 @@ export class MensFrPage {
           msgRef=data.ref;
           console.log(msgRef);
           msgRef.update({'likes':n});
+          lksRef=firebase.database().ref(msgRef.path.pieces_[0]+'/'+msgRef.path.pieces_[1]
+                        +'/'+msgRef.path.pieces_[2]+'/usrlikes');
+          lksRef.push({'usrlike': shs.getName()+'-'+shs.getLast()});
       }
    });
    this.likes[ind]=n;
@@ -137,8 +142,10 @@ dislike(ind:number)
   var mg=this.mensajes;
   var msgRef;
   var m;
+  var shs=this.shareService;
+  var dlksRef;
     var n:number=parseInt(this.dislikes[ind]);
-    n-=1;
+    n+=1;
     console.log(mg[ind]);
 
     var usrRef=firebase.database().ref('msgs/friends/');
@@ -149,8 +156,12 @@ dislike(ind:number)
       if (m==mg[ind]){
           msgRef=data.ref;
           console.log(msgRef);
-          if (n>=0)
+          if (n>=0){
             msgRef.update({'dislikes':n});
+            dlksRef=firebase.database().ref(msgRef.path.pieces_[0]+'/'+msgRef.path.pieces_[1]
+            +'/'+msgRef.path.pieces_[2]+'/usrdislikes');
+dlksRef.push({'usrlike': shs.getName()+'-'+shs.getLast()});
+          }
       }
    });
    this.likes[ind]=n;
